@@ -23,7 +23,7 @@ jobs:
         image: mariadb:10.11
         env:
           MARIADB_ROOT_PASSWORD: password
-          MARIADB_DATABASE: laravel11
+          MARIADB_DATABASE: qdv11
         ports:
           - 3306:3306
         options: >-
@@ -87,9 +87,9 @@ jobs:
           DB_CONNECTION=mariadb
           DB_HOST=127.0.0.1
           DB_PORT=3306
-          DB_DATABASE=laravel11
+          DB_DATABASE=qdv11
           DB_USERNAME=root
-          DB_PASSWORD=password
+          DB_PASSWORD=
 
           CACHE_STORE=file
           SESSION_DRIVER=file
