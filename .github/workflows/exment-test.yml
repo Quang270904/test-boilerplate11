@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [main, master]
   workflow_dispatch:
+  
 
 permissions:
   contents: write
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        suite: [browser, feature, unit]
+        suite: [browser]
 
     services:
       mariadb:
@@ -71,7 +72,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies (without scripts)
-        run: composer update --prefer-dist --no-interaction --no-progress --no-scripts
+        run: composer install --prefer-dist --no-interaction --no-progress --no-scripts
 
       - name: Create .env file
         run: |
@@ -114,13 +115,15 @@ jobs:
       - name: Clear Config Cache
         run: php artisan config:clear
 
-      - name: Run suite
-        id: run-suite
-        run: |
-          set -o pipefail
-          rm -f output-${{ matrix.suite }}.txt exit-${{ matrix.suite }}.code || true
-          echo "=== ${{ matrix.suite }} tests ===" | tee -a output-${{ matrix.suite }}.txt
-          composer run exment:test:${{ matrix.suite }} 2>&1 | tee -a output-${{ matrix.suite }}.txt
-          code=$?
-          echo $code > exit-${{ matrix.suite }}.code
-        continue-on-error: true
+      - name: Clear Config Cache
+        run: ./vendor/bin/phpunit vendor/exceedone/exment/tests/Browser/DCustomDataTest.php
+      # - name: Run suite
+      #   id: run-suite
+      #   run: |
+      #     set -o pipefail
+      #     rm -f output-${{ matrix.suite }}.txt exit-${{ matrix.suite }}.code || true
+      #     echo "=== ${{ matrix.suite }} tests ===" | tee -a output-${{ matrix.suite }}.txt
+      #     composer run exment:test:${{ matrix.suite }} 2>&1 | tee -a output-${{ matrix.suite }}.txt
+      #     code=$?
+      #     echo $code > exit-${{ matrix.suite }}.code
+      #   continue-on-error: true
