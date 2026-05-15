@@ -115,8 +115,6 @@ jobs:
       - name: Clear Config Cache
         run: php artisan config:clear
 
-      - name: Clear Config Cache
-        run: ./vendor/bin/phpunit vendor/exceedone/exment/tests/Browser/DCustomDataTest.php
       - name: Run suite
         id: run-suite
         run: |
